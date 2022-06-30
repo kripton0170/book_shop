@@ -9,12 +9,26 @@
     
     {% for i in object_list%}
     <div>
-        <h3>{{i.name}}</h3>
+        <h3><a href="{% url "detail" i.pk %}">{{i.name}}</a></h3>
         <span>{{i.price}}</span>
         <a href="{% url 'update' i.id %}">Update</a>
+
+        {% comment %} <a href="{% url 'delete' i.id %}">delete</a> {% endcomment %}
+        <form action = "{% url "delete" i.id %}" method="post" onsubmit="return confirm('Do you want delete post?');">
+            {% csrf_token %}
+        <button type="submit">delete</button>
+        </form>
+    
     </div>
     {% endfor %}
    
     <br>
     <a href = "{% url 'create' %}">Create</a>
+    <div>
+        <form method = "post" enctype = "multipart/form-data">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type = "submit"> Save </button>
+        </form>
+    </div>
  {% endblock %}
